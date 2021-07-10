@@ -1,0 +1,26 @@
+.customerFormCard {
+  height: 100%;
+}
+
+.customerPage {
+  height: 100%;
+}
+
+.ordersTable {
+  height: 50%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.waiting {
+  height: 95%;
+  overflow-y: auto;
+}
+

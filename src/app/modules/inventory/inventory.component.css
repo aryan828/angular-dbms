@@ -1,0 +1,23 @@
+.itemsTable {
+  height: 50%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+textarea {
+  resize: none;
+}
+
+.customerFormCard {
+  margin: 25px;
+  height: 715px;
+}
+
+.newSupplierCard, .newItemCard, .updateItemCard {
+  margin: 25px;
+}
+
+

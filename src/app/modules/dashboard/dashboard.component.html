@@ -1,0 +1,94 @@
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
+  <mat-card class="charts" fxFlex="75">
+<!--    <mat-card-title fxLayout="row" fxLayoutAlign="center">-->
+<!--      Cash Flow-->
+<!--    </mat-card-title>-->
+<!--    <mat-divider></mat-divider>-->
+<!--    <br>-->
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-even center">
+      <canvas
+        baseChart *ngIf="fetchedData !== 'Food Sales Data' && fetchedData !== 'Expenditures'"
+        [chartType]="'line'"
+        [legend]="true"
+        [datasets]="chartData"
+        [labels]="chartLabels"
+        [options]="lineChartOptions"
+      >
+      </canvas>
+      <canvas baseChart *ngIf="fetchedData === 'Food Sales Data' || fetchedData === 'Expenditures'"
+              [chartType]="'pie'"
+              [legend]="true"
+              [datasets]="pieChartData"
+              [labels]="pieChartLabels"
+              [plugins]="pieChartPlugins"
+              [options]="chartOptions"
+              [colors]="pieChartColors">
+      </canvas>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="charts" fxFlex="25">
+    <mat-card-title fxLayout="row" fxLayoutAlign="center">
+      SELECT DATA FOR GRAPH
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <br>
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-even">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Select Data to Visualize</mat-label>
+        <mat-select [(value)]="selectedData">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let data of availableData" [value]="data">{{data}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Select a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [disabled]="selectedData === 'Cash Flow' || selectedData === 'Expenditures'">
+          <input matStartDate formControlName="start" placeholder="Start date">
+          <input matEndDate formControlName="end" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="fetchData()">Update</button><br>
+      <p *ngIf="selectedData === 'Cash Flow'">Note: Data of last 12 months will be displayed (if available).</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+<br>
+<div fxLayout="row" fxLayoutAlign="space-around center" class="info" fxLayoutGap="10px">
+  <mat-card fxFlex="33">
+    <mat-card-title>
+      <mat-icon>arrow_upward</mat-icon>
+      Most Popular Dish
+    </mat-card-title>
+    <mat-card-content>
+      {{pDish}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card fxFlex="33">
+    <mat-card-title>
+      <mat-icon>{{avgValue < tcust ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
+      Customers Served Today
+    </mat-card-title>
+    <mat-card-content>
+      {{tcust}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card fxFlex="33">
+    <mat-card-title>
+      <mat-icon>arrow_upward</mat-icon>
+      Average Customers Served Daily
+    </mat-card-title>
+    <mat-card-content>
+      {{avgValue}}
+    </mat-card-content>
+  </mat-card>
+</div>
+
